@@ -48,7 +48,7 @@ class Gateway extends Model
     protected function suitpayClienteId(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => env('APP_DEMO') ? '*********************' : $value,
+            get: fn (?string $value) => env('APP_DEMO') ? '*********************' : $value,
         );
     }
 
@@ -58,7 +58,7 @@ class Gateway extends Model
     protected function suitpayClienteSecret(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => env('APP_DEMO') ? '*********************' : $value,
+            get: fn (?string $value) => env('APP_DEMO') ? '*********************' : $value,
         );
     }
 
@@ -68,7 +68,7 @@ class Gateway extends Model
     protected function bspayClienteId(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => env('APP_DEMO') ? '*********************' : $value,
+            get: fn (?string $value) => env('APP_DEMO') ? '*********************' : $value,
         );
     }
 
@@ -78,7 +78,7 @@ class Gateway extends Model
     protected function bspayClienteSecret(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => env('APP_DEMO') ? '*********************' : $value,
+            get: fn (?string $value) => env('APP_DEMO') ? '*********************' : $value,
         );
     }
 
