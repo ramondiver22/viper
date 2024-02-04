@@ -28,12 +28,12 @@ exigidos para executar um projeto Laravel 10](https://laravel.com/docs/7.x#serve
 
 #### Esse Vídeo vai ensinar como configurar o Cloudflare e o domínio.
 
-[![Watch the video](https://i9.ytimg.com/vi_webp/OinYqRuF1T4/mq1.webp?sqp=CJzU9K0G&rs=AOn4CLCWQ3E9oPJ26pCkI3JlQZ9JuLRsGw)](https://youtu.be/OinYqRuF1T4)
+[![Watch the video](https://uploaddeimagens.com.br/images/004/731/437/original/editor-de-video-para-youtube.png?1707080196)](https://youtu.be/OinYqRuF1T4)
 
 
 #### Esse Vídeo vai ensinar a vocês como configurar uma VPS na hostinger para o projeto.
 
-[![Watch the video](https://i9.ytimg.com/vi_webp/OinYqRuF1T4/mq1.webp?sqp=CJzU9K0G&rs=AOn4CLCWQ3E9oPJ26pCkI3JlQZ9JuLRsGw)](https://youtu.be/9lgv1XSpErE)
+[![Watch the video](https://uploaddeimagens.com.br/images/004/731/437/original/editor-de-video-para-youtube.png?1707080196)](https://youtu.be/9lgv1XSpErE)
 
 
 1. Você precisa definir a URL do seu site no .env, sem a barra
@@ -54,6 +54,11 @@ exigidos para executar um projeto Laravel 10](https://laravel.com/docs/7.x#serve
 ```
 
 3. Tem uma pasta chamada sql, com um arquivo viper.sql, você precisa carregar ele no seu phpMyAdmin
+
+4. Após colocar as chaves do Suitpay, você precisa configurar lá na Suitpay o seu IP, e também o seu endpoint que é:
+```
+https://seusite.com/suitpay/callback
+```
 
 ### Equipe
 
