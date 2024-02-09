@@ -1,10 +1,246 @@
-<?php namespace App\Traits\Gateways;use App\Models\Deposit;use App\Models\Gateway;use App\Models\Transaction;use App\Models\Withdrawal;use Illuminate\Support\Facades\Http;use Illuminate\Support\Facades\Validator;trait BsPayTrait{
-     protected static string $pt_0;protected static string $ay_1;protected static string $cy_2;protected static string $li_3;protected static string $lc_4;
-     private static function generateCredentials(){$qp_5=Gateway::first();if(!empty($qp_5)){self::$pt_0=$qp_5->$ef_6;self::$ay_1=$qp_5->$vj_7;self::$cy_2=$qp_5->$ru_8;return self::authentication();}return false;}
-     private static function authentication(){$cq_9=self::$ay_1;$jf_10=self::$cy_2;$rq_11=base64_encode($cq_9.base64_decode('Og==').$jf_10);$mp_12=Http::withHeaders([base64_decode('QXV0aG9yaXphdGlvbg==')=>base64_decode('QmFzaWMg').$rq_11,base64_decode('Q29udGVudC1UeXBl')=>base64_decode('YXBwbGljYXRpb24veC13d3ctZm9ybS11cmxlbmNvZGVk'),])->post(self::$pt_0.base64_decode('YXV0aGVudGljYXRpb24='),[base64_decode('Z3JhbnRfdHlwZQ==')=>base64_decode('Y2xpZW50X2NyZWRlbnRpYWxz'),]);if($mp_12->successful()){$la_13=$mp_12->json();return $la_13[base64_decode('YWNjZXNzX3Rva2Vu')];}else{self::$li_3=$mp_12->status();self::$lc_4=$mp_12->body();return false;}}
-     public static function requestQrcode($qk_14){if($id_15=self::generateCredentials()){$qp_5=\Helper::getSetting();$vb_16=[base64_decode('YW1vdW50')=>[base64_decode('cmVxdWlyZWQ='),base64_decode('bWF4Og==').$qp_5->$rh_17,base64_decode('bWF4Og==').$qp_5->$op_18],base64_decode('Y3Bm')=>[base64_decode('cmVxdWlyZWQ='),base64_decode('bWF4OjI1NQ==')],];$sl_19=Validator::make($qk_14->all(),$vb_16);if($sl_19->fails()){return response()->json($sl_19->errors(),400);}$lf_20=[base64_decode('YW1vdW50')=>\Helper::amountPrepare($qk_14->$da_21),base64_decode('ZXh0ZXJuYWxfaWQ=')=>auth()->user()->$uo_22,base64_decode('cGF5ZXJRdWVzdGlvbg==')=>base64_decode('UGFnYW1lbnRvIHJlZmVyZW50ZSBhbyBzZXJ2acOnby9wcm9kdXRvIFg='),base64_decode('cGF5ZXI=')=>[base64_decode('bmFtZQ==')=>auth()->user()->$vd_23,base64_decode('ZG9jdW1lbnQ=')=>\Helper::soNumero($qk_14->$ma_24)]];$mp_12=Http::withHeaders([base64_decode('QXV0aG9yaXphdGlvbg==')=>base64_decode('QmVhcmVyIA==').$id_15,base64_decode('Q29udGVudC1UeXBl')=>base64_decode('YXBwbGljYXRpb24vanNvbg=='),])->post(self::$pt_0.base64_decode('cGF5bWVudC9waXgvY3JlYXRl'),$lf_20);if($mp_12->successful()){$st_25=$mp_12->json();self::generateTransaction($st_25[base64_decode('dHJhbnNhY3Rpb25JZA==')],\Helper::amountPrepare($qk_14->$da_21));self::generateDeposit($st_25[base64_decode('dHJhbnNhY3Rpb25JZA==')],\Helper::amountPrepare($qk_14->$da_21));return[base64_decode('c3RhdHVz')=>true,base64_decode('aWRUcmFuc2FjdGlvbg==')=>$st_25[base64_decode('dHJhbnNhY3Rpb25JZA==')],base64_decode('cXJjb2Rl')=>$st_25[base64_decode('ZW12cXJjcHM=')]];}else{self::$li_3=$mp_12->status();self::$lc_4=$mp_12->body();return false;}}}
-     private static function generateDeposit($ay_26,$kt_27){Deposit::create([base64_decode('cGF5bWVudF9pZA==')=>$ay_26,base64_decode('dXNlcl9pZA==')=>auth()->user()->$uo_22,base64_decode('YW1vdW50')=>$kt_27,base64_decode('dHlwZQ==')=>base64_decode('cGl4'),base64_decode('c3RhdHVz')=>0]);}
-     private static function generateTransaction($ay_26,$kt_27){$qp_5=\Helper::getSetting();Transaction::create([base64_decode('cGF5bWVudF9pZA==')=>$ay_26,base64_decode('dXNlcl9pZA==')=>auth()->user()->$uo_22,base64_decode('cGF5bWVudF9tZXRob2Q=')=>base64_decode('cGl4'),base64_decode('cHJpY2U=')=>$kt_27,base64_decode('Y3VycmVuY3k=')=>$qp_5->$hp_28,base64_decode('c3RhdHVz')=>0]);}
-     public static function consultStatusTransaction($qk_14){$cc_29=Transaction::where(base64_decode('cGF5bWVudF9pZA=='),$qk_14->$hc_30)->where(base64_decode('c3RhdHVz'),1)->first();if(!empty($cc_29)){return response()->json([base64_decode('c3RhdHVz')=>base64_decode('UEFJRA==')]);}return response()->json([base64_decode('c3RhdHVz')=>base64_decode('Tk9QQUlE')],400);}
-     public static function MakePayment(array$rd_31){if($id_15=self::generateCredentials()){$nu_32=$rd_31[base64_decode('cGl4X2tleQ==')];$tg_33=self::FormatPixType($rd_31[base64_decode('cGl4X3R5cGU=')]);$kt_27=$rd_31[base64_decode('YW1vdW50')];$ao_34=\Helper::soNumero($rd_31[base64_decode('ZG9jdW1lbnQ=')]);$lf_20=[base64_decode('YW1vdW50')=>floatval(\Helper::amountPrepare($kt_27)),base64_decode('ZXh0ZXJuYWxfaWQ=')=>$rd_31[base64_decode('cGF5bWVudF9pZA==')],base64_decode('cGF5ZXJRdWVzdGlvbg==')=>base64_decode('RmF6ZW5kbyBwYWdhbWVudG8u'),base64_decode('cGF5ZXI=')=>[base64_decode('a2V5')=>$nu_32,base64_decode('a2V5VHlwZQ==')=>$tg_33,base64_decode('ZG9jdW1lbnQ=')=>$ao_34]];$mp_12=Http::withHeaders([base64_decode('QXV0aG9yaXphdGlvbg==')=>base64_decode('QmVhcmVyIA==').$id_15,base64_decode('Q29udGVudC1UeXBl')=>base64_decode('YXBwbGljYXRpb24vanNvbg=='),])->post(self::$pt_0.base64_decode('cGF5bWVudC9waXgvc2VuZA=='),$lf_20);if($mp_12->successful()){$st_25=$mp_12->json();if($st_25[base64_decode('c3RhdHVz')]===base64_decode('UFJPQ0VTU0lORw==')){$pl_35=Withdrawal::find($rd_31[base64_decode('cGF5bWVudF9pZA==')]);if(!empty($pl_35)){$mx_36=Deposit::where(base64_decode('cGF5bWVudF9pZA=='),$st_25[base64_decode('dHJhbnNhY3Rpb25JZA==')])->first();if(!empty($mx_36)){$mx_36->update([base64_decode('c3RhdHVz')=>1]);}$pl_35->update([base64_decode('cHJvb2Y=')=>$st_25[base64_decode('dHJhbnNhY3Rpb25JZA==')],base64_decode('c3RhdHVz')=>1,]);return true;}return false;}return false;}return false;}return false;}
-     private static function FormatPixType($to_37){switch($to_37){case base64_decode('ZW1haWw='):return base64_decode('RU1BSUw=');case base64_decode('ZG9jdW1lbnQ='):return base64_decode('Q1BG');case base64_decode('ZG9jdW1lbnQ='):return base64_decode('Q05QSg==');case base64_decode('cmFuZG9tS2V5'):return base64_decode('QUxFQVRPUklB');case base64_decode('cGhvbmVOdW1iZXI='):return base64_decode('VEVMRUZPTkU=');}}}
+<?php
+
+namespace App\Traits\Gateways;
+
+use App\Models\Deposit;
+use App\Models\Gateway;
+use App\Models\Transaction;
+use App\Models\Withdrawal;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
+
+trait BsPayTrait
+{
+    /**
+     * @var $uri
+     * @var $clienteId
+     * @var $clienteSecret
+     */
+    protected static string $uri;
+    protected static string $clienteId;
+    protected static string $clienteSecret;
+    protected static string $statusCode;
+    protected static string $errorBody;
+
+    /**
+     * Generate Credentials
+     * Metodo para gerar credenciais
+     * @return void
+     */
+    private static function generateCredentials()
+    {
+        $setting = Gateway::first();
+        if(!empty($setting)) {
+            self::$uri = $setting->bspay_uri;
+            self::$clienteId = $setting->bspay_cliente_id;
+            self::$clienteSecret = $setting->bspay_cliente_secret;
+
+            return self::authentication();
+        }
+
+        return false;
+    }
+
+    /**
+     * Authentication
+     *
+     * @return false
+     */
+    private static function authentication()
+    {
+        $client_id      = self::$clienteId;
+        $client_secret  = self::$clienteSecret;
+        $credentials = base64_encode($client_id . ":" . $client_secret);
+
+        $response = Http::withHeaders([
+            'Authorization' => 'Basic ' . $credentials,
+            'Content-Type' => 'application/x-www-form-urlencoded',
+        ])
+        ->post(self::$uri.'authentication', [
+            'grant_type' => 'client_credentials',
+        ]);
+
+        if ($response->successful()) {
+            $data = $response->json();
+            return $data['access_token'];
+        } else {
+            self::$statusCode = $response->status();
+            self::$errorBody = $response->body();
+            return false;
+        }
+    }
+
+    /**
+     * Request QRCODE
+     * Metodo para solicitar uma QRCODE PIX
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public static function requestQrcode($request)
+    {
+        if($access_token = self::generateCredentials()) {
+            $setting = \Helper::getSetting();
+            $rules = [
+                'amount' => ['required', 'max:'.$setting->min_deposit, 'max:'.$setting->max_deposit],
+                'cpf'    => ['required', 'max:255'],
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 400);
+            }
+
+            $parameters = [
+                'amount' => \Helper::amountPrepare($request->amount),
+                "external_id" => auth()->user()->id,
+                "payerQuestion" => "Pagamento referente ao serviço/produto X",
+                "payer" => [
+                    "name" => auth()->user()->name,
+                    "document" => \Helper::soNumero($request->cpf)
+                ]
+            ];
+
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $access_token,
+                'Content-Type' => 'application/json',
+            ])->post(self::$uri.'payment/pix/create', $parameters);
+
+            if ($response->successful()) {
+                $responseData = $response->json();
+
+                self::generateTransaction($responseData['transactionId'], \Helper::amountPrepare($request->amount)); /// gerando historico
+                self::generateDeposit($responseData['transactionId'], \Helper::amountPrepare($request->amount)); /// gerando deposito
+
+                return [
+                    'status' => true,
+                    'idTransaction' => $responseData['transactionId'],
+                    'qrcode' => $responseData['emvqrcps']
+                ];
+            } else {
+                self::$statusCode = $response->status();
+                self::$errorBody = $response->body();
+                return false;
+            }
+        }
+    }
+
+    /**
+     * @param $idTransaction
+     * @param $amount
+     * @return void
+     */
+    private static function generateDeposit($idTransaction, $amount)
+    {
+        Deposit::create([
+            'payment_id' => $idTransaction,
+            'user_id' => auth()->user()->id,
+            'amount' => $amount,
+            'type' => 'pix',
+            'status' => 0
+        ]);
+    }
+
+    /**
+     * @param $idTransaction
+     * @param $amount
+     * @return void
+     */
+    private static function generateTransaction($idTransaction, $amount)
+    {
+        $setting = \Helper::getSetting();
+
+        Transaction::create([
+            'payment_id' => $idTransaction,
+            'user_id' => auth()->user()->id,
+            'payment_method' => 'pix',
+            'price' => $amount,
+            'currency' => $setting->currency_code,
+            'status' => 0
+        ]);
+    }
+
+    /**
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public static function consultStatusTransaction($request)
+    {
+        $transaction = Transaction::where('payment_id', $request->idTransaction)->where('status', 1)->first();
+        if(!empty($transaction)) {
+            return response()->json(['status' => 'PAID']);
+        }
+
+        return response()->json(['status' => 'NOPAID'], 400);
+    }
+
+    /**
+     * Make Payment
+     *
+     * @param array $array
+     * @return false
+     */
+    public static function MakePayment(array $array)
+    {
+        if($access_token = self::generateCredentials()) {
+
+            $pixKey     = $array['pix_key'];
+            $pixType    = self::FormatPixType($array['pix_type']);
+            $amount     = $array['amount'];
+            $doc        = \Helper::soNumero($array['document']);
+
+            $parameters = [
+                'amount' => floatval(\Helper::amountPrepare($amount)),
+                "external_id" => $array['payment_id'],
+                "payerQuestion" => "Fazendo pagamento.",
+                "payer" => [
+                    "key" => $pixKey,
+                    "keyType" => $pixType,
+                    "document" => $doc
+                ]
+            ];
+
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $access_token,
+                'Content-Type' => 'application/json',
+            ])->post(self::$uri.'payment/pix/send', $parameters);
+
+            if ($response->successful()) {
+                $responseData = $response->json();
+
+                if($responseData['status'] === 'PROCESSING') {
+                    $withdrawal = Withdrawal::find($array['payment_id']);
+                    if(!empty($withdrawal)) {
+                        $withdrawal->update([
+                            'proof' => $responseData['transactionId'],
+                            'status' => 1,
+                        ]);
+                        return true;
+                    }
+                    return false;
+                }
+                return false;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     * @param $type
+     * @return string|void
+     */
+    private static function FormatPixType($type)
+    {
+        switch ($type) {
+            case 'email':
+                return 'EMAIL';
+            case 'document':
+                return 'CPF';
+            case 'document':
+                return 'CNPJ';
+            case 'randomKey':
+                return 'ALEATORIA';
+            case 'phoneNumber':
+                return 'TELEFONE';
+        }
+    }
+}
