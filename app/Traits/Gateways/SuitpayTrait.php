@@ -148,16 +148,6 @@ trait SuitpayTrait
         $setting = \Helper::getSetting();
 
         if(!empty($transaction)) {
-            $user = User::find($transaction->user_id);
-
-            /// verifica se vem de um convite
-            if(!empty($user) && !empty($user->inviter)) {
-                $afiliado =  User::find($user->inviter);
-                if(!empty($afiliado)) {
-
-                }
-            }
-
             $wallet = Wallet::where('user_id', $transaction->user_id)->first();
             if(!empty($wallet)) {
                 /// verifica se é o primeiro deposito
