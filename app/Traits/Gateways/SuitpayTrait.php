@@ -131,7 +131,7 @@ trait SuitpayTrait
                     return response()->json(['status' => 'PAID']);
                 }
 
-                return response()->json(['status' => $responseData], 200);
+                return response()->json(['status' => $responseData], 400);
             }
 
             return response()->json(['status' => $responseData], 400);
@@ -171,7 +171,7 @@ trait SuitpayTrait
                 if($wallet->increment('balance', $transaction->price)) {
                     if($transaction->update(['status' => 1])) {
                         self::updateAffiliate($transaction->payment_id, $transaction->user_id, $transaction->price);
-                        return false;
+                        return true;
                     }
                     return false;
                 }
