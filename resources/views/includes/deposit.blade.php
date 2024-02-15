@@ -18,7 +18,9 @@
 
             <form id="depositForm" method="post" action="" class="form-login">
                 @csrf
-                <h5 class="mb-3 font-bold">DEPOSITAR VIA PIX</h5>
+                <div class="animate__animated animate__zoomIn">
+                    <h5 class="mb-3 font-bold">DEPOSITAR VIA PIX</h5>
+                </div>
 
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="email" style="width: 50px;">
@@ -68,6 +70,10 @@
             width: 700,
             closeOnEscape: false,
             overlayClose: false,
+            transitionIn: 'comingIn',
+            transitionOut: 'comingOut',
+            transitionInOverlay: 'fadeIn',
+            transitionOutOverlay: 'fadeOut',
             onFullscreen: function(){},
             onResize: function(){},
             onOpening: function(){

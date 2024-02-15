@@ -131,7 +131,7 @@ trait SuitpayTrait
                     return response()->json(['status' => 'PAID']);
                 }
 
-                return response()->json(['status' => $responseData], 400);
+                return response()->json(['status' => $responseData], 200);
             }
 
             return response()->json(['status' => $responseData], 400);

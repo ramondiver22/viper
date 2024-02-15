@@ -23,6 +23,9 @@
         <!-- Bootstrap -->
         <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
         <!-- iziModal -->
         <link href="{{ asset('assets/css/iziModal.min.css') }}" rel="stylesheet" type="text/css" />
 
@@ -60,6 +63,7 @@
         <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('assets/js/iziModal.min.js') }}"></script>
         <script src="{{ asset('assets/js/iziToast.min.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
         <script src="{{ asset('assets/js/custom.js') }}"></script>
         <script>
             $.ajaxSetup({

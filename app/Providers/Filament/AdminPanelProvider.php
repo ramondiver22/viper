@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
+use App\Filament\Pages\CustomizationPage;
 use App\Filament\Pages\GamesKeyPage;
 use App\Filament\Pages\GatewayPage;
 use App\Filament\Pages\SettingMailPage;
@@ -169,6 +170,12 @@ class AdminPanelProvider extends PanelProvider
                         NavigationGroup::make('Customização')
                             ->items([
                                 ...BannerResource::getNavigationItems(),
+                                NavigationItem::make('customization')
+                                    ->icon('heroicon-o-currency-dollar')
+                                    ->label(fn (): string => 'Customização')
+                                    ->url(fn (): string => CustomizationPage::getUrl())
+                                    ->isActiveWhen(fn () => request()->routeIs('filament.pages.customization-page'))
+                                    ->visible(fn(): bool => auth()->user()->hasRole('admin')),
                             ])
                         : NavigationGroup::make()
                     ,

@@ -3,7 +3,9 @@
         <div class="col-lg-6 col-sm-12">
             <div class="footer-info">
                 <div>
-                    <img src="{{ asset('storage/'.config('setting')['software_logo_white']) }}" alt="" class="footer-logo" width="">
+                    @if(isset(config('setting')['software_logo_white']))
+                        <img src="{{ asset('storage/'.config('setting')['software_logo_white']) }}" alt="" class="footer-logo" width="">
+                    @endif
                     <img src="{{ asset('/assets/images/+18.png') }}" alt="" width="38">
                 </div>
                 <p class="{{ url('/sobre-nos') }}">
