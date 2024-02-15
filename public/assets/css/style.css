@@ -1,102 +1,5 @@
 
-[data-bs-theme=dark] {
-    color-scheme: dark;
-    --bs-body-color: #dee2e6;
-    --bs-body-color-rgb: 222,226,230;
-    --bs-body-bg: #212529;
-    --bs-body-bg-rgb: 33,37,41;
-    --bs-emphasis-color: #fff;
-    --bs-emphasis-color-rgb: 255,255,255;
-    --bs-secondary-color: rgba(222, 226, 230, 0.75);
-    --bs-secondary-color-rgb: 222,226,230;
-    --bs-secondary-bg: #343a40;
-    --bs-secondary-bg-rgb: 52,58,64;
-    --bs-tertiary-color: rgba(222, 226, 230, 0.5);
-    --bs-tertiary-color-rgb: 222,226,230;
-    --bs-tertiary-bg: #2b3035;
-    --bs-tertiary-bg-rgb: 43,48,53;
-    --bs-dropdown-link-active-bg: #49a31b;
-    --bs-primary-text-emphasis: #49a31b;
-    --bs-secondary-text-emphasis: #a7acb1;
-    --bs-success-text-emphasis: #75b798;
-    --bs-info-text-emphasis: #6edff6;
-    --bs-warning-text-emphasis: #ffda6a;
-    --bs-danger-text-emphasis: #ea868f;
-    --bs-light-text-emphasis: #f8f9fa;
-    --bs-dark-text-emphasis: #dee2e6;
-    --bs-primary-bg-subtle: #031633;
-    --bs-secondary-bg-subtle: #161719;
-    --bs-success-bg-subtle: #051b11;
-    --bs-info-bg-subtle: #032830;
-    --bs-warning-bg-subtle: #332701;
-    --bs-danger-bg-subtle: #2c0b0e;
-    --bs-light-bg-subtle: #343a40;
-    --bs-dark-bg-subtle: #1a1d20;
-    --bs-primary-border-subtle: #084298;
-    --bs-secondary-border-subtle: #41464b;
-    --bs-success-border-subtle: #0f5132;
-    --bs-info-border-subtle: #087990;
-    --bs-warning-border-subtle: #997404;
-    --bs-danger-border-subtle: #842029;
-    --bs-light-border-subtle: #495057;
-    --bs-dark-border-subtle: #343a40;
-    --bs-heading-color: inherit;
-    --bs-link-color: #49a31b;
-    --bs-link-hover-color: #49a31b;
-    --bs-link-color-rgb: 110,168,254;
-    --bs-link-hover-color-rgb: 139,185,254;
-    --bs-code-color: #e685b5;
-    --bs-highlight-color: #dee2e6;
-    --bs-highlight-bg: #664d03;
-    --bs-border-color: #27292d;
-    --bs-border-color-translucent: rgba(91, 89, 89, 0.15);
-    --bs-form-valid-color: #75b798;
-    --bs-form-valid-border-color: #75b798;
-    --bs-form-invalid-color: #ea868f;
-    --bs-form-invalid-border-color: #ea868f;
-}
 
-:root {
-
-    --bs-body-bg: #0D131C;
-    --cor-principal: #3BC117;
-    --cor-de-fundo: #0d131c;
-    --cor-de-fundo-detalhe: #0d131c;
-    --cor-texto-geral: #ffffff;
-    --cor-titulo-lateral: #3BC117;
-    --cor-botao: #3BC117;
-    --cor-botao-texto: #ffffff;
-    --cor-botao-secundario: #1A1C20;
-    --cor-botao-secundario-texto: #ffffff;
-    --cor-menu: #c9c9c9;
-    --cor-menu-hover: #ffffff;
-    --cor-background-tarja: #5624d0;
-    --cor-texto-tarja: #ffffff;
-    --cor-nome-time-odds: #49a31b;
-    --cor-nome-time-odds-hover: #3BC117;
-    --cor-nome-time-odds-background: #232a33;
-    --cor-placar: #3BC117;
-    --cor-liga: #3BC117;
-    --cor-fundo-esportes: #fff;
-    --cor-texto-esportes: #000000;
-    --cor-titulo-rodape: #fff;
-    --cor-links-rodape: #8697a2;
-    --cor-background-modo-mini: #9195a3;
-    --bs-primary: #3bc117;
-    --bs-primary-rgb: #3bc117;
-    --title-color: #ffffff;
-    --text-color: #98A7B5;
-    --sub-text-color: #656E78;
-    --placeholder-color: #4D565E;
-    --background-color: #24262B;
-    --standard-color: #1C1E22;
-    --shadow-color: #111415;
-    --page-shadow: linear-gradient(to right, #111415, rgba(17, 20, 21, 0));
-    --autofill-color: #f5f6f7;
-    --yellow-color: #FFBF39;
-    --border-radius: .25rem;
-
-}
 *{
     list-style: none;
     text-decoration: none;
@@ -253,7 +156,7 @@ a, a:hover {
     max-width: calc(100% - 235px - 32px);
     width: 100%;
     margin-left: 267px;
-    padding-right: 20px;
+    /*padding-right: 20px;*/
 }
 
 @media screen and (max-width: 960px) {

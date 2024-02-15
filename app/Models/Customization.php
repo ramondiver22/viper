@@ -28,6 +28,8 @@ class Customization extends Model
         'side_type',
         'footer_type',
         'primary_color',
+        'primary_border_color',
+        'primary_text',
         'secondary_color',
         'background_color',
         'footer_color',

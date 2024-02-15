@@ -66,6 +66,8 @@ trait AffiliateHistoryTrait
             $user = User::find($userId);
 
             if(!empty($deposit)) {
+                $deposit->update(['status' => 1]);
+
                 /// verificar se existe sponsor
                 $affHistories = AffiliateHistory::where('user_id', $userId)
                     ->where('deposited', 0)

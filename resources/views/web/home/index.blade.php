@@ -29,117 +29,119 @@
 @endpush
 
 @section('content')
-    <div class="container-fluid">
+    <div class="">
 
         <div class="">
             @include('includes.navbar_top')
             @include('includes.navbar_left')
 
             <div class="page__content">
-                <section id="image-carousel" class="splide" aria-label="">
-                    <div class="splide__track">
-                        <div class="splide-banner">
-                            Ganhe 10 rodadas grátis <span style="margin-left: 10px"><i class="fa-solid fa-fire"></i></span>
-                        </div>
-                        <ul class="splide__list">
-                            @foreach(\App\Models\Banner::where('type', 'carousel')->get() as $banner)
-                                <li class="splide__slide">
-                                    <a href="{{ $banner->link }}">
-                                        <img src="{{ asset('storage/'.$banner->image) }}" alt="">
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </section>
-
-                <!-- Search -->
-                <form action="{{ url('/') }}" method="GET">
-                    <div class="input-group input-search-group">
-                        <input type="text" name="search" value="{{ request('search') }}" class="form-control" placeholder="Digite o que você procura..." aria-label="Pesquisar" aria-describedby="basic-addon2">
-                        <span class="input-group-text" id="basic-addon2"><i class="fa-duotone fa-magnifying-glass"></i> </span>
-                    </div>
-                </form>
-
-
-                <!-- Jogos da plataforma -->
-                @if(count($gamesExclusives) > 0)
-                    <div class="mt-5">
-                        @include('includes.title', ['link' => url('/games?tab=exclusives'), 'title' => 'Jogos da Casa', 'icon' => 'fa-regular fa-gamepad-modern'])
-                    </div>
-
-                    <div class="row row-cols-3 row-cols-md-6 mt-3">
-                        @foreach(\App\Models\Banner::where('type', 'home')->get() as $banner)
-                            <div class="col">
-                                <a href="{{ $banner->link }}"><img src="{{ asset('storage/'.$banner->image) }}" alt="" class="img-fluid rounded-4 w-full"></a>
+                <div class=" @if(\Helper::getCustomLayout()['expanded_layout']) container-fluid @else container @endif">
+                    <section id="image-carousel" class="splide" aria-label="">
+                        <div class="splide__track">
+                            <div class="splide-banner">
+                                Ganhe 10 rodadas grátis <span style="margin-left: 10px"><i class="fa-solid fa-fire"></i></span>
                             </div>
-                        @endforeach
-                    </div>
+                            <ul class="splide__list">
+                                @foreach(\App\Models\Banner::where('type', 'carousel')->get() as $banner)
+                                    <li class="splide__slide">
+                                        <a href="{{ $banner->link }}">
+                                            <img src="{{ asset('storage/'.$banner->image) }}" alt="">
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </section>
 
-                    <div class="d-steam-cards js-steamCards">
-                        @foreach($gamesExclusives as $gamee)
-                            <a href="{{ route('web.vgames.show', ['game' => $gamee->uuid]) }}" class="d-steam-card-wrapper">
-                                <div class="d-steam-card js-steamCard" style="background-image: url('storage/{{ $gamee->cover }}')"></div>
-                            </a>
-                        @endforeach
-                    </div>
-                @endif
+                    <!-- Search -->
+                    <form action="{{ url('/') }}" method="GET">
+                        <div class="input-group input-search-group">
+                            <input type="text" name="search" value="{{ request('search') }}" class="form-control" placeholder="Digite o que você procura..." aria-label="Pesquisar" aria-describedby="basic-addon2">
+                            <span class="input-group-text" id="basic-addon2"><i class="fa-duotone fa-magnifying-glass"></i> </span>
+                        </div>
+                    </form>
 
-                <br>
-                <br>
 
-                @if(count($providers) > 0)
-                    @foreach($providers as $provider)
-                        @include('includes.title', ['link' => url('/games?provider='.$provider->code.'&tab=fivers'), 'title' => $provider->name, 'icon' => 'fa-duotone fa-gamepad-modern'])
+                    <!-- Jogos da plataforma -->
+                    @if(count($gamesExclusives) > 0)
+                        <div class="mt-5">
+                            @include('includes.title', ['link' => url('/games?tab=exclusives'), 'title' => 'Jogos da Casa', 'icon' => 'fa-regular fa-gamepad-modern'])
+                        </div>
 
                         <div class="row row-cols-3 row-cols-md-6 mt-3">
-                            @foreach($provider->games->where('status', 1) as $gameProvider)
-                                <div class="col mb-3">
-                                    <a href="{{ route('web.fivers.show', ['code' => $gameProvider->game_code]) }}" class="">
-                                        <img src="{{ asset('storage/'.$gameProvider->banner) }}" alt="{{ $gameProvider->game_name }}" class="w-full rounded-3">
+                            @foreach(\App\Models\Banner::where('type', 'home')->get() as $banner)
+                                <div class="col">
+                                    <a href="{{ $banner->link }}"><img src="{{ asset('storage/'.$banner->image) }}" alt="" class="img-fluid rounded-4 w-full"></a>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <div class="d-steam-cards js-steamCards">
+                            @foreach($gamesExclusives as $gamee)
+                                <a href="{{ route('web.vgames.show', ['game' => $gamee->uuid]) }}" class="d-steam-card-wrapper">
+                                    <div class="d-steam-card js-steamCard" style="background-image: url('storage/{{ $gamee->cover }}')"></div>
+                                </a>
+                            @endforeach
+                        </div>
+                    @endif
+
+                    <br>
+                    <br>
+
+                    @if(count($providers) > 0)
+                        @foreach($providers as $provider)
+                            @include('includes.title', ['link' => url('/games?provider='.$provider->code.'&tab=fivers'), 'title' => $provider->name, 'icon' => 'fa-duotone fa-gamepad-modern'])
+
+                            <div class="row row-cols-3 row-cols-md-6 mt-3">
+                                @foreach($provider->games->where('status', 1) as $gameProvider)
+                                    <div class="col mb-3">
+                                        <a href="{{ route('web.fivers.show', ['code' => $gameProvider->game_code]) }}" class="">
+                                            <img src="{{ asset('storage/'.$gameProvider->banner) }}" alt="{{ $gameProvider->game_name }}" class="w-full rounded-3">
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endforeach
+                    @endif
+
+                    <!-- Slotegrator -->
+                    @if(count($games) > 0)
+                        @include('includes.title', ['link' => url('/games?tab=all'), 'title' => 'Todos os Jogos', 'icon' => 'fa-duotone fa-gamepad-modern'])
+
+                        <div class="row row-cols-3 row-cols-md-6 mt-3">
+                            @foreach($games as $game)
+                                <div class="col caixa-loop-elementos">
+                                    <a href="{{ route('web.game.index', ['slug' => $game->slug]) }}" class="inner-loop-elementos">
+                                        <img src="{{ asset('storage/'.$game->image) }}" alt="{{ $game->name }}" class="img-fluid rounded-3">
                                     </a>
                                 </div>
                             @endforeach
                         </div>
-                    @endforeach
-                @endif
+                    @endif
 
-                <!-- Slotegrator -->
-                @if(count($games) > 0)
-                    @include('includes.title', ['link' => url('/games?tab=all'), 'title' => 'Todos os Jogos', 'icon' => 'fa-duotone fa-gamepad-modern'])
+                    <br>
 
-                    <div class="row row-cols-3 row-cols-md-6 mt-3">
-                        @foreach($games as $game)
-                            <div class="col caixa-loop-elementos">
-                                <a href="{{ route('web.game.index', ['slug' => $game->slug]) }}" class="inner-loop-elementos">
-                                    <img src="{{ asset('storage/'.$game->image) }}" alt="{{ $game->name }}" class="img-fluid rounded-3">
-                                </a>
-                            </div>
-                        @endforeach
+                    @if(count($gamesVibra) > 0)
+                        @include('includes.title', ['link' => url('/games?tab=vibra'), 'title' => 'Jogos Vibra', 'icon' => 'fa-duotone fa-gamepad-modern'])
+
+                        <div class="row row-cols-3 row-cols-md-6 mt-3">
+                            @foreach($gamesVibra as $vibra)
+                                <div class="col mb-3">
+                                    <a href="{{ route('web.vibragames.show', ['id' => $vibra->game_id]) }}" class="inner-loop-elementos">
+                                        <img src="{{ asset('storage/'.$vibra->game_cover) }}" alt="{{ $vibra->name }}" class="img-fluid rounded-3">
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+
+                    <div class="mt-5">
+                        @include('includes.title', ['link' => url('como-funciona'), 'title' => 'F.A.Q', 'icon' => 'fa-light fa-circle-info', 'labelLink' => 'Saiba mais'])
                     </div>
-                @endif
 
-                <br>
-
-                @if(count($gamesVibra) > 0)
-                    @include('includes.title', ['link' => url('/games?tab=vibra'), 'title' => 'Jogos Vibra', 'icon' => 'fa-duotone fa-gamepad-modern'])
-
-                    <div class="row row-cols-3 row-cols-md-6 mt-3">
-                        @foreach($gamesVibra as $vibra)
-                            <div class="col mb-3">
-                                <a href="{{ route('web.vibragames.show', ['id' => $vibra->game_id]) }}" class="inner-loop-elementos">
-                                    <img src="{{ asset('storage/'.$vibra->game_cover) }}" alt="{{ $vibra->name }}" class="img-fluid rounded-3">
-                                </a>
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
-
-                <div class="mt-5">
-                    @include('includes.title', ['link' => url('como-funciona'), 'title' => 'F.A.Q', 'icon' => 'fa-light fa-circle-info', 'labelLink' => 'Saiba mais'])
+                    @include('web.home.sections.faq')
                 </div>
-
-                @include('web.home.sections.faq')
 
                 @include('includes.footer')
 

@@ -96,11 +96,15 @@ class CustomizationPage extends Page implements HasForms
                         Group::make()->schema([
                             ColorPicker::make('primary_color')
                                 ->label('Cor Primaria'),
+                            ColorPicker::make('primary_border_color')
+                                ->label('Cor da Borda Primaria'),
+                            ColorPicker::make('primary_text')
+                                ->label('Cor do Texto'),
                             ColorPicker::make('secondary_color')
                                 ->label('Cor Secundaria'),
                             ColorPicker::make('background_color')
                                 ->label('Cor do Fundo'),
-                            ColorPicker::make('background_color')
+                            ColorPicker::make('footer_color')
                                 ->label('Cor do Rodapé'),
 
                         ])->columns(4),

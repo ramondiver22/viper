@@ -10,8 +10,8 @@
         @include('includes.navbar_left')
 
         <div class="page__content">
-
-            <div class="card mt-5">
+            <div class=" @if(\Helper::getCustomLayout()['expanded_layout']) container-fluid @else container @endif">
+                <div class="card mt-5">
                 <div class="card-header">
                     <h3 class="mb-0"><strong>MINHA CONTA</strong></h3>
                 </div>
@@ -86,6 +86,7 @@
                         </div>
                     </form>
                 </div>
+            </div>
             </div>
         </div>
     </div>
