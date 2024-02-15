@@ -7,6 +7,7 @@ namespace App\Helpers;
 use App\Models\Activity;
 use App\Models\AffiliateHistory;
 use App\Models\BetCategory;
+use App\Models\Customization;
 use App\Models\Order;
 use App\Models\Setting;
 use App\Models\User;
@@ -350,6 +351,23 @@ class Core
         }else{
             return self::amountFormatDecimal(0.00);
         }
+    }
+
+    /**
+     * Get Settings
+     * @return \Illuminate\Cache\
+     */
+    public static function getCustomLayout()
+    {
+        $customlayout = null;
+        if(Cache::has('customlayout')) {
+            $customlayout = Cache::get('customlayout');
+        }else{
+            $customlayout = Customization::first();
+            Cache::put('customlayout', $customlayout);
+        }
+
+        return $customlayout;
     }
 
     /**

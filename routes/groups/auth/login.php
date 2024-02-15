@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', function() {
     return redirect()->to('/admin/login');
 });
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
 Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
 Route::get('/forgot-password',  [ResetPasswordController::class, 'forgotPassword'])->name('forgotPassword');

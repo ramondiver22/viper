@@ -15,6 +15,7 @@ use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Filament\Support\Exceptions\Halt;
 use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Cache;
 
 class CustomizationPage extends Page implements HasForms
 {
@@ -63,32 +64,32 @@ class CustomizationPage extends Page implements HasForms
                                 ->placeholder('Altere o card de listagem de jogos')
                                 ->options([
                                     'default' => 'Padrão',
-                                    'reviewing' => 'Reviewing',
-                                    'published' => 'Published',
+                                    'basic' => 'Básica',
+                                    'modern' => 'Moderna',
                                 ]),
                             Select::make('header_type')
                                 ->label('Tipo de Cabeçalho')
                                 ->placeholder('Altere o Cabeçalho do seu site')
                                 ->options([
                                     'default' => 'Padrão',
-                                    'reviewing' => 'Reviewing',
-                                    'published' => 'Published',
+                                    'basic' => 'Básica',
+                                    'modern' => 'Moderna',
                                 ]),
                             Select::make('side_type')
                                 ->label('Tipo de Menu Side')
                                 ->placeholder('Altere o menu lateral esqueda do seu site')
                                 ->options([
                                     'default' => 'Padrão',
-                                    'reviewing' => 'Reviewing',
-                                    'published' => 'Published',
+                                    'basic' => 'Básica',
+                                    'modern' => 'Moderna',
                                 ]),
                             Select::make('footer_type')
                                 ->label('Tipo de Rodapé')
                                 ->placeholder('Altere o rodapé')
                                 ->options([
                                     'default' => 'Padrão',
-                                    'reviewing' => 'Reviewing',
-                                    'published' => 'Published',
+                                    'basic' => 'Básica',
+                                    'modern' => 'Moderna',
                                 ]),
                         ])->columns(3),
 
@@ -133,6 +134,8 @@ class CustomizationPage extends Page implements HasForms
             $setting = Customization::first();
             if(!empty($setting)) {
                 if($setting->update($this->data)) {
+                    Cache::put('customlayout', $setting);
+
                     Notification::make()
                         ->title('Chaves Alteradas')
                         ->body('Suas chaves foram alteradas com sucesso!')

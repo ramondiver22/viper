@@ -160,8 +160,7 @@ trait SuitpayTrait
 
                 if($wallet->increment('balance', $transaction->price)) {
                     if($transaction->update(['status' => 1])) {
-                        self::updateAffiliate($transaction->payment_id, $transaction->user_id, $transaction->price);
-                        return true;
+                        return self::updateAffiliate($transaction->payment_id, $transaction->user_id, $transaction->price);
                     }
                     return false;
                 }
@@ -169,6 +168,12 @@ trait SuitpayTrait
             }
             return false;
         }
+        $transactionActive = Transaction::where('payment_id', $idTransaction)->where('status', 1)->first();
+        if(!empty($transactionActive)) {
+            return true;
+        }
+
+
         return false;
     }
 

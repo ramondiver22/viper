@@ -61,70 +61,76 @@ trait AffiliateHistoryTrait
      */
     public static function updateAffiliate($idTransaction, $userId, $price)
     {
-        $deposit = Deposit::with(['user'])->where('payment_id', $idTransaction)->where('status', 0)->first();
-        $user = User::find($userId);
+        try {
+            $deposit = Deposit::with(['user'])->where('payment_id', $idTransaction)->where('status', 0)->first();
+            $user = User::find($userId);
 
-        if(!empty($deposit)) {
-
-            /// verificar se existe sponsor
-            $affHistories = AffiliateHistory::where('user_id', $userId)
-                ->where('deposited', 0)
-                ->where('status', 0)
-                ->get();
-
-            if(count($affHistories) > 0) {
-                foreach($affHistories as $affHistory) {
-                    if(!empty($affHistory)) {
-
-                        /// atualiza os valores depositado
-                        $affHistory->update(['deposited' => 1, 'deposited_amount' => $price]);
-                    }
-                }
-
-                /// fazer o deposito em cpa
-                $affHistoryCPA = AffiliateHistory::where('user_id', $userId)
-                    ->where('commission_type', 'cpa')
-                    ->where('deposited', 1)
+            if(!empty($deposit)) {
+                /// verificar se existe sponsor
+                $affHistories = AffiliateHistory::where('user_id', $userId)
+                    ->where('deposited', 0)
                     ->where('status', 0)
-                    ->lockForUpdate()
-                    ->first();
+                    ->get();
 
-                if(!empty($affHistoryCPA)) {
+                if(count($affHistories) > 0) {
+                    foreach($affHistories as $affHistory) {
+                        if(!empty($affHistory)) {
 
-                    /// verifcia se já pode receber o cpa
-                    $sponsorCpa = User::find($affHistoryCPA->inviter);
-                    if(!empty($sponsorCpa)) {
-                        if($affHistoryCPA->deposited_amount >= $sponsorCpa->affiliate_baseline) {
-                            $walletCpa = Wallet::where('user_id', $affHistoryCPA->inviter)->lockForUpdate()->first();
-                            if(!empty($walletCpa)) {
+                            /// atualiza os valores depositado
+                            $affHistory->update(['deposited' => 1, 'deposited_amount' => $price]);
+                        }
+                    }
 
-                                /// paga o valor de CPA
-                                $walletCpa->increment('refer_rewards', $sponsorCpa->affiliate_cpa); /// coloca a comissão do cpa
-                                $affHistoryCPA->update(['status' => 1, 'commission_paid' => $sponsorCpa->affiliate_cpa]); /// desativa cpa
+                    /// fazer o deposito em cpa
+                    $affHistoryCPA = AffiliateHistory::where('user_id', $userId)
+                        ->where('commission_type', 'cpa')
+                        ->where('deposited', 1)
+                        ->where('status', 0)
+                        ->lockForUpdate()
+                        ->first();
+
+                    if(!empty($affHistoryCPA)) {
+                        /// verifcia se já pode receber o cpa
+                        $sponsorCpa = User::find($affHistoryCPA->inviter);
+                        if(!empty($sponsorCpa)) {
+                            if($affHistoryCPA->deposited_amount >= $sponsorCpa->affiliate_baseline) {
+                                $walletCpa = Wallet::where('user_id', $affHistoryCPA->inviter)->first();
+                                if(!empty($walletCpa)) {
+
+                                    /// paga o valor de CPA
+                                    $walletCpa->increment('refer_rewards', $sponsorCpa->affiliate_cpa); /// coloca a comissão do cpa
+                                    $affHistoryCPA->update(['status' => 1, 'commission_paid' => $sponsorCpa->affiliate_cpa]); /// desativa cpa
+                                }
                             }
                         }
                     }
-                }
 
-                /// notificar todos admin
-                if($deposit->update(['status' => 1])) {
-                    $admins = User::where('role_id', 0)->get();
-                    foreach ($admins as $admin) {
-                        $admin->notify(new NewDepositNotification($deposit->user->name, $price));
+                    /// notificar todos admin
+                    if($deposit->update(['status' => 1])) {
+                        $admins = User::where('role_id', 0)->get();
+                        foreach ($admins as $admin) {
+                            $admin->notify(new NewDepositNotification($deposit->user->name, $price));
+                        }
+
+
+                        return true;
                     }
-
                     return true;
-                }
-                return false;
-            }else{
-                $affHistories = AffiliateHistory::where('user_id', $userId)->first();
-                if(empty($affHistories)) {
-                    /// criando novo affiliate history
-                    if(self::saveAffiliateHistory($user)) {
-                        self::updateAffiliate($idTransaction, $userId, $price);
+                }else{
+                    $affHistories = AffiliateHistory::where('user_id', $userId)->first();
+                    if(empty($affHistories)) {
+
+                        /// criando novo affiliate history
+                        if(self::saveAffiliateHistory($user)) {
+                            return true;
+                        }
+                    }else{
+                        return true;
                     }
                 }
             }
+        } catch (\Exception $e) {
+            \Log::info(json_encode($e->getMessage() .' -  --- ERROR: '.$e->getLine()));
         }
     }
 }

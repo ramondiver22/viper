@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Panel\AffiliateController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +14,13 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/clear', function() {
+    Artisan::command('clear', function () {
+        Artisan::call('optimize:clear');
+        echo 'Tudo apagado com sucesso';
+    });
 
-Route::get('/open', function() {
-   $tokenOpen = \Helper::DecToken('b6JnfGF7fXMjOjB79zVoLCJoeWFweCIyICJmZW2xQGRoeWctY1auIjpj8WQjOjAjMTm6OCIrIzRweWUjOjAjMT9pNiQ1NDY7N6Ja');
-   dd($tokenOpen);
+    dd("LIMPOU");
 });
 Route::get('/test', [\App\Http\Controllers\Provider\FiversController::class, 'gameLaunchApi']);
 
